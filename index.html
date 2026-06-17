@@ -4,58 +4,67 @@
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; padding: 20px; }
-        .controls { background: white; padding: 20px; width: 800px; margin: 0 auto 20px auto; border-radius: 8px; border: 1px solid #ddd; }
-        #phieu { width: 800px; background: white; margin: 0 auto; padding: 30px; border: 2px solid #5398b1; box-sizing: border-box; }
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; }
+        .controls { background: white; padding: 20px; width: 850px; margin: auto; border-radius: 8px; border: 1px solid #ddd; }
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { grid-column: span 2; padding: 12px; background: #5398b1; color: white; border: none; cursor: pointer; font-weight: bold; }
         
-        /* Bố cục bảng giống mẫu */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        td { border: 1px solid #ccc; padding: 12px; vertical-align: top; }
-        .header-section { background: #5398b1; color: white; text-align: center; font-weight: bold; padding: 10px; }
-        
-        .title-hotel { text-align: center; color: #2c3e50; font-size: 24px; font-weight: bold; margin-bottom: 5px; }
-        .title-confirm { text-align: center; color: #2c3e50; font-size: 18px; margin-bottom: 20px; }
+        #phieu { width: 850px; background: white; margin: 20px auto; padding: 25px; border: 2px solid #5398b1; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        td { border: 1px solid #ccc; padding: 10px; vertical-align: top; }
+        .header-blue { background: #5398b1; color: white; text-align: center; font-weight: bold; padding: 8px; }
     </style>
 </head>
 <body>
 
 <div class="controls">
-    <h3>Nhập liệu thông tin:</h3>
-    <input type="text" id="inHoTen" placeholder="Họ tên khách" oninput="up()">
-    <input type="text" id="inPhone" placeholder="Số điện thoại" oninput="up()">
-    <input type="text" id="inNhan" placeholder="Ngày nhận" oninput="up()">
-    <input type="text" id="inTra" placeholder="Ngày trả" oninput="up()">
-    <input type="text" id="inLoai" placeholder="Loại phòng" oninput="up()">
-    <input type="text" id="inTien" placeholder="Tiền phòng" oninput="up()">
-    <button onclick="capture()" style="background:#28a745; color:white; padding:10px; border:none; cursor:pointer;">Sao chép phiếu (Ảnh)</button>
+    <h3>Nhập thông tin phiếu:</h3>
+    <div class="input-group">
+        <input type="text" id="inTen" placeholder="Họ & Tên khách hàng" oninput="up()">
+        <input type="text" id="inSDT" placeholder="Số điện thoại" oninput="up()">
+        <input type="text" id="inNhan" placeholder="Ngày nhận phòng" oninput="up()">
+        <input type="text" id="inTra" placeholder="Ngày trả phòng" oninput="up()">
+        <input type="text" id="inLoai" placeholder="Loại phòng" oninput="up()">
+        <input type="text" id="inSLPhong" placeholder="Số lượng phòng" oninput="up()">
+        <input type="text" id="inTien" placeholder="Tiền phòng" oninput="up()">
+        <input type="text" id="inNguoi" placeholder="Số lượng người" oninput="up()">
+        <input type="text" id="inYeuCau" placeholder="Yêu cầu đặc biệt" oninput="up()">
+        <input type="text" id="inTinhTrang" placeholder="Tình trạng đặt phòng" oninput="up()">
+        <button onclick="capture()">SAO CHÉP PHIẾU (ẢNH)</button>
+    </div>
 </div>
 
 <div id="phieu">
-    <div class="title-hotel">AQUAMARINE RESORT CAM RANH</div>
-    <div class="title-confirm">THƯ XÁC NHẬN ĐẶT PHÒNG</div>
-    
+    <h2 style="text-align:center; color:#5398b1;">PHIẾU XÁC NHẬN ĐẶT PHÒNG</h2>
     <table>
-        <tr><td colspan="2" class="header-section">THÔNG TIN ĐẶT PHÒNG</td></tr>
-        <tr><td>Họ & Tên: <b id="outHoTen">...</b></td><td>Số điện thoại: <b id="outPhone">...</b></td></tr>
+        <tr><td colspan="2" class="header-blue">THÔNG TIN ĐẶT PHÒNG</td></tr>
+        <tr><td>Họ & Tên: <b id="outTen">...</b></td><td>Số ĐT: <b id="outSDT">...</b></td></tr>
         <tr><td>Ngày nhận: <b id="outNhan">...</b></td><td>Ngày trả: <b id="outTra">...</b></td></tr>
-        <tr><td>Loại phòng: <b id="outLoai">...</b></td><td>Tiền phòng: <b id="outTien">...</b></td></tr>
+        <tr><td>Loại phòng: <b id="outLoai">...</b></td><td>Số lượng phòng: <b id="outSLPhong">...</b></td></tr>
+        <tr><td>Số lượng người: <b id="outNguoi">...</b></td><td>Tiền phòng: <b id="outTien">...</b></td></tr>
+        <tr><td>Tình trạng: <b id="outTinhTrang">...</b></td><td>Yêu cầu: <b id="outYeuCau">...</b></td></tr>
     </table>
 </div>
 
 <script>
     function up() {
-        document.getElementById('outHoTen').innerText = document.getElementById('inHoTen').value;
-        document.getElementById('outPhone').innerText = document.getElementById('inPhone').value;
+        document.getElementById('outTen').innerText = document.getElementById('inTen').value;
+        document.getElementById('outSDT').innerText = document.getElementById('inSDT').value;
         document.getElementById('outNhan').innerText = document.getElementById('inNhan').value;
         document.getElementById('outTra').innerText = document.getElementById('inTra').value;
         document.getElementById('outLoai').innerText = document.getElementById('inLoai').value;
+        document.getElementById('outSLPhong').innerText = document.getElementById('inSLPhong').value;
         document.getElementById('outTien').innerText = document.getElementById('inTien').value;
+        document.getElementById('outNguoi').innerText = document.getElementById('inNguoi').value;
+        document.getElementById('outYeuCau').innerText = document.getElementById('inYeuCau').value;
+        document.getElementById('outTinhTrang').innerText = document.getElementById('inTinhTrang').value;
     }
     function capture() {
         html2canvas(document.querySelector("#phieu")).then(c => {
             c.toBlob(b => { 
                 navigator.clipboard.write([new ClipboardItem({"image/png": b})]); 
-                alert("Đã sao chép! Bạn dán vào Zalo là có hình ảnh phiếu ngay."); 
+                alert("Đã sao chép! Dán vào Zalo/Messenger ngay."); 
             });
         });
     }
