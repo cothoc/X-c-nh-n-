@@ -4,60 +4,61 @@
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; }
-        .controls { background: white; padding: 20px; width: 850px; margin: auto; border-radius: 8px; border: 1px solid #ddd; }
-        .hotel-form { display: none; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        input { padding: 8px; }
-        #phieu { width: 850px; background: white; margin: 20px auto; padding: 30px; border: 1px solid #ccc; display: none; }
+        body { font-family: Arial, sans-serif; background: #e0e0e0; padding: 20px; }
+        .menu { text-align: center; margin-bottom: 20px; }
+        .menu button { padding: 10px 20px; cursor: pointer; font-weight: bold; margin: 0 5px; }
+        .section { display: none; background: white; padding: 20px; width: 850px; margin: auto; border: 1px solid #ccc; }
+        #phieu { width: 850px; background: white; margin: 20px auto; padding: 30px; border: 1px solid #999; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        td { border: 1px solid #ccc; padding: 10px; }
+        td { border: 1px solid #ccc; padding: 8px; }
         .blue-bg { background: #5398b1; color: white; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="controls">
-    <h3>Chọn khách sạn:</h3>
-    <button onclick="switchHotel('cicilia')">Cicilia Danang</button>
-    <button onclick="switchHotel('aqua')">Aquamarine Cam Ranh</button>
+<div class="menu">
+    <button onclick="show('cicilia')">Cicilia Hotel</button>
+    <button onclick="show('aqua')">Aquamarine Resort</button>
+</div>
 
-    <div id="form-cicilia" class="hotel-form">
-        <input type="text" id="c_ten" placeholder="Họ tên" oninput="up('cicilia')">
-        <input type="text" id="c_sdt" placeholder="SĐT" oninput="up('cicilia')">
-        <input type="text" id="c_ngay" placeholder="Ngày nhận" oninput="up('cicilia')">
-        <input type="text" id="c_tien" placeholder="Tiền phòng" oninput="up('cicilia')">
-    </div>
+<!-- FORM CICILIA -->
+<div id="form-cicilia" class="section">
+    <h3>Nhập thông tin CICILIA:</h3>
+    <input type="text" id="i_c_name" placeholder="Họ tên">
+    <input type="text" id="i_c_sdt" placeholder="SĐT">
+    <button onclick="copyImg()">XUẤT ẢNH</button>
+</div>
 
-    <div id="form-aqua" class="hotel-form">
-        <input type="text" id="a_ten" placeholder="Họ tên" oninput="up('aqua')">
-        <input type="text" id="a_loai" placeholder="Loại phòng" oninput="up('aqua')">
-        <input type="text" id="a_ngay" placeholder="Ngày trả" oninput="up('aqua')">
-    </div>
-    
-    <button onclick="copyImg()" style="margin-top:20px; background:green; color:white; border:none; padding:10px;">SAO CHÉP PHIẾU</button>
+<!-- FORM AQUA -->
+<div id="form-aqua" class="section">
+    <h3>Nhập thông tin AQUAMARINE:</h3>
+    <input type="text" id="i_a_name" placeholder="Họ tên">
+    <input type="text" id="i_a_loai" placeholder="Loại phòng">
+    <button onclick="copyImg()">XUẤT ẢNH</button>
 </div>
 
 <div id="phieu">
-    <h2 id="o_tieuDe">PHIẾU XÁC NHẬN</h2>
-    <table id="o_table">
-        </table>
+    <h2 id="o_tieuDe">Chọn khách sạn để bắt đầu</h2>
+    <table id="o_table"></table>
 </div>
 
 <script>
-    function switchHotel(type) {
-        document.querySelectorAll('.hotel-form').forEach(f => f.style.display = 'none');
-        document.getElementById('form-' + type).style.display = 'grid';
-        document.getElementById('phieu').style.display = 'block';
-        // Logic hiển thị bảng tương ứng ở đây...
+    function show(hotel) {
+        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+        document.getElementById('form-' + hotel).style.display = 'block';
+        
+        // Tùy biến tiêu đề và bảng dựa trên lựa chọn
+        if(hotel === 'cicilia') {
+            document.getElementById('o_tieuDe').innerText = "PHIẾU XÁC NHẬN CICILIA";
+            // Ở đây bạn có thể thêm code để vẽ lại bảng chuẩn của Cicilia
+        } else {
+            document.getElementById('o_tieuDe').innerText = "PHIẾU XÁC NHẬN AQUAMARINE";
+        }
     }
     
-    function up(type) {
-        // Cập nhật nội dung vào phiếu dựa trên loại khách sạn
-    }
-
     function copyImg() {
         html2canvas(document.querySelector("#phieu")).then(c => {
-            c.toBlob(b => { navigator.clipboard.write([new ClipboardItem({"image/png": b})]); alert("Đã sao chép ảnh!"); });
+            c.toBlob(b => { navigator.clipboard.write([new ClipboardItem({"image/png": b})]); alert("Đã sao chép!"); });
         });
     }
 </script>
