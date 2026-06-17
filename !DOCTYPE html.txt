@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Hệ thống Sales Hotel</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+        .controls { background: #fff; padding: 20px; border-radius: 8px; width: 800px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .phieu { width: 800px; background: white; margin: 20px auto; padding: 30px; border: 2px solid #5398b1; box-sizing: border-box; }
+        input { width: 45%; padding: 8px; margin: 5px; }
+        button { padding: 10px 20px; cursor: pointer; background: #28a745; color: white; border: none; }
+        .row { display: flex; justify-content: space-between; margin: 10px 0; }
+        .title { text-align: center; color: #5398b1; font-weight: bold; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+    <h3>Chọn khách sạn:</h3>
+    <button onclick="switchHotel('cicilia')">Cicilia Danang</button>
+    <button onclick="switchHotel('aquamarine')">Aquamarine Cam Ranh</button>
+    <hr>
+    <div id="form-cicilia" class="hotel-form">
+        <h4>Nhập thông tin Cicilia</h4>
+        <input type="text" id="c_ten" placeholder="Họ tên" oninput="update()">
+        <input type="text" id="c_checkin" placeholder="Ngày nhận" oninput="update()">
+        <input type="text" id="c_checkout" placeholder="Ngày trả" oninput="update()">
+        <input type="text" id="c_loai" placeholder="Loại phòng" oninput="update()">
+    </div>
+    <div id="form-aquamarine" class="hotel-form hidden">
+        <h4>Nhập thông tin Aquamarine</h4>
+        <input type="text" id="a_ten" placeholder="Họ tên" oninput="update()">
+        <input type="text" id="a_checkin" placeholder="Ngày nhận" oninput="update()">
+        <input type="text" id="a_checkout" placeholder="Ngày trả" oninput="update()">
+        <input type="text" id="a_combo" placeholder="Số lượng combo" oninput="update()">
+    </div>
+    <button onclick="copyImage()">Sao chép thành ảnh</button>
+</div>
+
+<div id="phieu" class="phieu">
+    <h2 id="out_hotel" class="title">PHIẾU XÁC NHẬN</h2>
+    <div class="row"><span>Họ tên: <b id="out_ten">...</b></span> <span>Ngày nhận: <b id="out_in">...</b></span></div>
+    <div class="row"><span>Loại phòng: <b id="out_loai">...</b></span> <span>Ngày trả: <b id="out_out">...</b></span></div>
+</div>
+
+<script>
+    let current = 'cicilia';
+    function switchHotel(h) {
+        current = h;
+        document.querySelectorAll('.hotel-form').forEach(f => f.classList.add('hidden'));
+        document.getElementById('form-'+h).classList.remove('hidden');
+        document.getElementById('out_hotel').innerText = h === 'cicilia' ? 'CICILIA HOTELS & SPA' : 'AQUAMARINE RESORT';
+        update();
+    }
+    function update() {
+        if(current === 'cicilia') {
+            document.getElementById('out_ten').innerText = document.getElementById('c_ten').value;
+            document.getElementById('out_in').innerText = document.getElementById('c_checkin').value;
+            document.getElementById('out_out').innerText = document.getElementById('c_checkout').value;
+            document.getElementById('out_loai').innerText = document.getElementById('c_loai').value;
+        } else {
+            document.getElementById('out_ten').innerText = document.getElementById('a_ten').value;
+            document.getElementById('out_in').innerText = document.getElementById('a_checkin').value;
+            document.getElementById('out_out').innerText = document.getElementById('a_checkout').value;
+            document.getElementById('out_loai').innerText = 'Combo: ' + document.getElementById('a_combo').value;
+        }
+    }
+    function copyImage() {
+        html2canvas(document.querySelector("#phieu")).then(canvas => {
+            canvas.toBlob(blob => {
+                navigator.clipboard.write([new ClipboardItem({"image/png": blob})]);
+                alert("Đã copy ảnh! Dán vào Zalo ngay.");
+            });
+        });
+    }
+</script>
+</body>
+</html>
