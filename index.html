@@ -2,65 +2,48 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background: #e0e0e0; padding: 20px; }
-        .menu { text-align: center; margin-bottom: 20px; }
-        .menu button { padding: 10px 20px; cursor: pointer; font-weight: bold; margin: 0 5px; }
-        .section { display: none; background: white; padding: 20px; width: 850px; margin: auto; border: 1px solid #ccc; }
-        #phieu { width: 850px; background: white; margin: 20px auto; padding: 30px; border: 1px solid #999; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        td { border: 1px solid #ccc; padding: 8px; }
-        .blue-bg { background: #5398b1; color: white; text-align: center; font-weight: bold; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; color: #333; }
+        .container { width: 800px; border: 2px solid #0088cc; padding: 20px; margin: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0088cc; padding-bottom: 10px; }
+        .title { text-align: center; color: #0088cc; }
+        .info-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .info-table td { border: 1px solid #ccc; padding: 10px; }
+        .label { background: #f0f8ff; font-weight: bold; width: 25%; }
+        .footer-section { display: flex; margin-top: 20px; gap: 20px; }
+        .bank-info { flex: 2; border: 1px solid #ccc; padding: 10px; }
+        .qr-section { flex: 1; text-align: center; }
+        .stamp { color: red; font-weight: bold; border: 2px solid red; padding: 5px; transform: rotate(-10deg); display: inline-block; }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <div><img src="https://ciciliahotel.com/wp-content/uploads/2019/12/logo-cicilia.png" width="120"></div>
+            <div class="title">
+                <h2>CICILIA HOTELS & SPA DANANG</h2>
+                <p><strong>PHIẾU XÁC NHẬN ĐẶT PHÒNG</strong></p>
+            </div>
+            <div>Mã: LD0759438</div>
+        </div>
 
-<div class="menu">
-    <button onclick="show('cicilia')">Cicilia Hotel</button>
-    <button onclick="show('aqua')">Aquamarine Resort</button>
-</div>
+        <table class="info-table">
+            <tr><td class="label">Họ tên</td><td>NGUYỄN HÀ LINH</td><td class="label">SĐT</td><td>0977028482</td></tr>
+            <tr><td class="label">Ngày nhận</td><td>15/06/2026</td><td class="label">Ngày trả</td><td>17/06/2026</td></tr>
+            <tr><td class="label">Loại phòng</td><td>Deluxe Twin with Window</td><td class="label">Tình trạng</td><td style="color: green;">ĐÃ XÁC NHẬN</td></tr>
+        </table>
 
-<!-- FORM CICILIA -->
-<div id="form-cicilia" class="section">
-    <h3>Nhập thông tin CICILIA:</h3>
-    <input type="text" id="i_c_name" placeholder="Họ tên">
-    <input type="text" id="i_c_sdt" placeholder="SĐT">
-    <button onclick="copyImg()">XUẤT ẢNH</button>
-</div>
-
-<!-- FORM AQUA -->
-<div id="form-aqua" class="section">
-    <h3>Nhập thông tin AQUAMARINE:</h3>
-    <input type="text" id="i_a_name" placeholder="Họ tên">
-    <input type="text" id="i_a_loai" placeholder="Loại phòng">
-    <button onclick="copyImg()">XUẤT ẢNH</button>
-</div>
-
-<div id="phieu">
-    <h2 id="o_tieuDe">Chọn khách sạn để bắt đầu</h2>
-    <table id="o_table"></table>
-</div>
-
-<script>
-    function show(hotel) {
-        document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-        document.getElementById('form-' + hotel).style.display = 'block';
-        
-        // Tùy biến tiêu đề và bảng dựa trên lựa chọn
-        if(hotel === 'cicilia') {
-            document.getElementById('o_tieuDe').innerText = "PHIẾU XÁC NHẬN CICILIA";
-            // Ở đây bạn có thể thêm code để vẽ lại bảng chuẩn của Cicilia
-        } else {
-            document.getElementById('o_tieuDe').innerText = "PHIẾU XÁC NHẬN AQUAMARINE";
-        }
-    }
-    
-    function copyImg() {
-        html2canvas(document.querySelector("#phieu")).then(c => {
-            c.toBlob(b => { navigator.clipboard.write([new ClipboardItem({"image/png": b})]); alert("Đã sao chép!"); });
-        });
-    }
-</script>
+        <div class="footer-section">
+            <div class="bank-info">
+                <p><strong>Ngân hàng:</strong> ACB - 8997666</p>
+                <p><strong>Nội dung:</strong> CICILIAA010979</p>
+                <div class="stamp">CONFIRMED</div>
+            </div>
+            <div class="qr-section">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=LD0759438">
+                <p>Quét để thanh toán</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
