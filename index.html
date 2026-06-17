@@ -4,39 +4,47 @@
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: sans-serif; background: #f0f0f0; padding: 20px; }
-        .controls { background: white; padding: 20px; width: 800px; margin: auto; border-radius: 10px; }
-        #phieu { width: 800px; background: white; margin: 20px auto; padding: 20px; border: 2px solid #5398b1; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        td { border: 1px solid #ccc; padding: 10px; }
-        .header-blue { background: #5398b1; color: white; text-align: center; font-weight: bold; }
+        body { font-family: Arial, sans-serif; background: #eee; padding: 20px; }
+        .controls { background: white; padding: 20px; width: 800px; margin: auto; border-radius: 8px; }
+        #phieu { width: 800px; background: white; margin: 20px auto; padding: 20px; border: 1px solid #999; }
+        table { width: 100%; border-collapse: collapse; }
+        td { border: 1px solid #ccc; padding: 8px; }
+        .header { background: #5398b1; color: white; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body>
-
 <div class="controls">
     <h3>Nhập thông tin:</h3>
-    <input type="text" id="hoTen" placeholder="Họ tên" oninput="update()">
-    <input type="text" id="ngayNhan" placeholder="Ngày nhận" oninput="update()">
-    <button onclick="copyImg()">Sao chép thành ảnh</button>
+    <input type="text" id="i_ten" placeholder="Họ tên" oninput="update()">
+    <input type="text" id="i_ngayNhan" placeholder="Ngày nhận" oninput="update()">
+    <input type="text" id="i_ngayTra" placeholder="Ngày trả" oninput="update()">
+    <input type="text" id="i_loai" placeholder="Loại phòng" oninput="update()">
+    <input type="text" id="i_tien" placeholder="Tiền phòng" oninput="update()">
+    <br><br>
+    <button onclick="copyImg()" style="background:#5398b1; color:white; padding:10px 20px; border:none; cursor:pointer;">Sao chép thành ảnh</button>
 </div>
 
 <div id="phieu">
-    <h2 style="text-align:center;">THƯ XÁC NHẬN ĐẶT PHÒNG</h2>
+    <h2 id="hotelTitle" style="text-align:center;">PHIẾU XÁC NHẬN ĐẶT PHÒNG</h2>
     <table>
-        <tr><td colspan="2" class="header-blue">THÔNG TIN ĐẶT PHÒNG</td></tr>
-        <tr><td>Họ & Tên: <b id="outTen">...</b></td><td>Ngày nhận: <b id="outNhan">...</b></td></tr>
+        <tr><td colspan="2" class="header">THÔNG TIN ĐẶT PHÒNG</td></tr>
+        <tr><td>Họ tên: <b id="o_ten">...</b></td><td>Ngày nhận: <b id="o_ngayNhan">...</b></td></tr>
+        <tr><td>Ngày trả: <b id="o_ngayTra">...</b></td><td>Loại phòng: <b id="o_loai">...</b></td></tr>
+        <tr><td colspan="2">Tổng tiền: <b id="o_tien" style="color:red;">...</b></td></tr>
     </table>
 </div>
 
 <script>
     function update() {
-        document.getElementById('outTen').innerText = document.getElementById('hoTen').value;
-        document.getElementById('outNhan').innerText = document.getElementById('ngayNhan').value;
+        document.getElementById('o_ten').innerText = document.getElementById('i_ten').value;
+        document.getElementById('o_ngayNhan').innerText = document.getElementById('i_ngayNhan').value;
+        document.getElementById('o_ngayTra').innerText = document.getElementById('i_ngayTra').value;
+        document.getElementById('o_loai').innerText = document.getElementById('i_loai').value;
+        document.getElementById('o_tien').innerText = document.getElementById('i_tien').value;
     }
     function copyImg() {
         html2canvas(document.querySelector("#phieu")).then(c => {
-            c.toBlob(b => { navigator.clipboard.write([new ClipboardItem({"image/png": b})]); alert("Đã copy!"); });
+            c.toBlob(b => { navigator.clipboard.write([new ClipboardItem({"image/png": b})]); alert("Đã sao chép, dán vào Zalo ngay!"); });
         });
     }
 </script>
