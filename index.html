@@ -4,62 +4,64 @@
     <meta charset="UTF-8">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background: #ddd; padding: 20px; }
-        .editor { width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        #phieu { width: 800px; background: white; margin: 20px auto; padding: 30px; border: 1px solid #999; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        body { font-family: Arial, sans-serif; background: #e0e0e0; padding: 20px; }
+        .controls { width: 850px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 5px #ccc; }
+        #phieu { width: 850px; background: white; margin: 20px auto; padding: 30px; border: 1px solid #999; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #5398b1; padding-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         td { border: 1px solid #ccc; padding: 8px; }
-        .blue-header { background: #5398b1; color: white; font-weight: bold; text-align: center; }
+        .blue-bg { background: #5398b1; color: white; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="editor">
-    <h3>Nhập thông tin phiếu (Đầy đủ):</h3>
-    <div class="grid">
-        <input type="text" id="i_hotel" placeholder="Tên khách sạn">
-        <input type="text" id="i_name" placeholder="Họ tên khách">
-        <input type="text" id="i_phone" placeholder="SĐT">
-        <input type="text" id="i_in" placeholder="Ngày nhận">
-        <input type="text" id="i_out" placeholder="Ngày trả">
-        <input type="text" id="i_room" placeholder="Loại phòng">
-        <input type="text" id="i_price" placeholder="Tiền phòng">
-        <input type="text" id="i_bank" placeholder="Ngân hàng">
-        <input type="text" id="i_acc" placeholder="Số tài khoản">
-        <button onclick="update()">Cập nhật phiếu</button>
-        <button onclick="save()" style="background:#5398b1; color:white;">SAO CHÉP ẢNH</button>
-    </div>
+<div class="controls">
+    <h3>Nhập thông tin (để tạo phiếu):</h3>
+    <input type="text" id="i_name" placeholder="Họ tên khách" oninput="up()">
+    <input type="text" id="i_sdt" placeholder="SĐT" oninput="up()">
+    <input type="text" id="i_in" placeholder="Ngày nhận" oninput="up()">
+    <input type="text" id="i_out" placeholder="Ngày trả" oninput="up()">
+    <input type="text" id="i_room" placeholder="Loại phòng" oninput="up()">
+    <input type="text" id="i_price" placeholder="Tiền phòng" oninput="up()">
+    <input type="text" id="i_bank" placeholder="Ngân hàng" oninput="up()">
+    <input type="text" id="i_stk" placeholder="STK" oninput="up()">
+    <br><br>
+    <button onclick="copyImg()" style="background:green; color:white; padding:10px; cursor:pointer;">SAO CHÉP PHIẾU THÀNH ẢNH</button>
 </div>
 
 <div id="phieu">
-    <h2 id="o_hotel" style="text-align:center;">TÊN KHÁCH SẠN</h2>
-    <h3 style="text-align:center;">PHIẾU XÁC NHẬN ĐẶT PHÒNG</h3>
+    <div class="header-top">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZGUvQQmF1E0Md-GEz-b9tmfIk-OTmhsH7_Q&s" alt="Logo" style="height: 60px;">
+        <div style="text-align: right;">
+            <h2 style="margin:0;">PHIẾU XÁC NHẬN</h2>
+            <p style="margin:0;">Mã booking: LD0759438</p>
+        </div>
+    </div>
+
     <table>
-        <tr><td colspan="2" class="blue-header">THÔNG TIN ĐẶT PHÒNG</td></tr>
-        <tr><td>Họ tên: <b id="o_name">...</b></td><td>SĐT: <b id="o_phone">...</b></td></tr>
+        <tr><td colspan="2" class="blue-bg">THÔNG TIN ĐẶT PHÒNG</td></tr>
+        <tr><td>Họ tên: <b id="o_name">...</b></td><td>SĐT: <b id="o_sdt">...</b></td></tr>
         <tr><td>Ngày nhận: <b id="o_in">...</b></td><td>Ngày trả: <b id="o_out">...</b></td></tr>
         <tr><td>Loại phòng: <b id="o_room">...</b></td><td>Tiền phòng: <b id="o_price">...</b></td></tr>
-        <tr><td colspan="2" class="blue-header">THÔNG TIN NGÂN HÀNG</td></tr>
-        <tr><td>Ngân hàng: <b id="o_bank">...</b></td><td>STK: <b id="o_acc">...</b></td></tr>
+        <tr><td colspan="2" class="blue-bg">THÔNG TIN NGÂN HÀNG</td></tr>
+        <tr><td>Ngân hàng: <b id="o_bank">...</b></td><td>STK: <b id="o_stk">...</b></td></tr>
     </table>
 </div>
 
 <script>
-    function update() {
-        document.getElementById('o_hotel').innerText = document.getElementById('i_hotel').value;
+    function up() {
         document.getElementById('o_name').innerText = document.getElementById('i_name').value;
-        document.getElementById('o_phone').innerText = document.getElementById('i_phone').value;
+        document.getElementById('o_sdt').innerText = document.getElementById('i_sdt').value;
         document.getElementById('o_in').innerText = document.getElementById('i_in').value;
         document.getElementById('o_out').innerText = document.getElementById('i_out').value;
         document.getElementById('o_room').innerText = document.getElementById('i_room').value;
         document.getElementById('o_price').innerText = document.getElementById('i_price').value;
         document.getElementById('o_bank').innerText = document.getElementById('i_bank').value;
-        document.getElementById('o_acc').innerText = document.getElementById('i_acc').value;
+        document.getElementById('o_stk').innerText = document.getElementById('i_stk').value;
     }
-    function save() {
+    function copyImg() {
         html2canvas(document.querySelector("#phieu")).then(c => {
-            c.toBlob(b => { navigator.clipboard.write([new ClipboardItem({"image/png": b})]); alert("Đã copy ảnh!"); });
+            c.toBlob(b => { navigator.clipboard.write([new ClipboardItem({"image/png": b})]); alert("Đã sao chép ảnh phiếu!"); });
         });
     }
 </script>
